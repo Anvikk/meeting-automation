@@ -1,0 +1,29 @@
+name: Send Meeting Invite
+
+on:
+  schedule:
+    # Every Tuesday and Thursday at 09:50 UTC = 17:50 CST (1 hour before 18:50 meeting)
+    - cron: '50 9 * * 2'
+    - cron: '50 9 * * 4'
+  workflow_dispatch: # allows manual trigger for testing
+
+jobs:
+  send-invite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install nodemailer
+
+      - name: Send meeting invite
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: node send_invite.js
