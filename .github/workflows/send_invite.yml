@@ -1,11 +1,7 @@
 name: Send Meeting Invite
 
 on:
-  schedule:
-    # 02:50 UTC = 10:50 CST — 8hrs before class, leaving buffer for GitHub delays
-    - cron: '50 2 * * 2'
-    - cron: '50 2 * * 4'
-  workflow_dispatch:
+  workflow_dispatch: # triggered externally by cron-job.org
 
 jobs:
   send-invite:
