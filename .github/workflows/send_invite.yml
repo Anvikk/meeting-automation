@@ -2,10 +2,10 @@ name: Send Meeting Invite
 
 on:
   schedule:
-    # Every Tuesday and Thursday at 09:50 UTC = 17:50 CST (1 hour before 18:50 meeting)
-    - cron: '50 9 * * 2'
-    - cron: '50 9 * * 4'
-  workflow_dispatch: # allows manual trigger for testing
+    # 02:50 UTC = 10:50 CST — 8hrs before class, leaving buffer for GitHub delays
+    - cron: '50 2 * * 2'
+    - cron: '50 2 * * 4'
+  workflow_dispatch:
 
 jobs:
   send-invite:
