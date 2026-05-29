@@ -12,8 +12,15 @@ const MEETINGS = {
   '2026-05-21': 'https://meeting.tencent.com/dm/o6OzpdgnvabP',
   '2026-05-26': 'https://meeting.tencent.com/dm/w1MctqMOqH4I',
   '2026-05-28': 'https://meeting.tencent.com/dm/pndCrhbUSXQz',
-  // Add June+ links below when ready:
-  // '2026-06-02': 'https://...',
+  '2026-06-02': 'https://meeting.tencent.com/dm/nesr2KOEtE8c',
+  '2026-06-04': 'https://meeting.tencent.com/dm/qc9Q4XayExNE',
+  '2026-06-09': 'https://meeting.tencent.com/dm/edy8ocQWfcAx',
+  '2026-06-11': 'https://meeting.tencent.com/dm/soSTVGu11ead',
+  '2026-06-16': 'https://meeting.tencent.com/dm/BCBl5iChnBU3',
+  '2026-06-18': 'https://meeting.tencent.com/dm/UiWthIHRssFG',
+  '2026-06-23': 'https://meeting.tencent.com/dm/UqkWCAvu86Rl',
+  '2026-06-25': 'https://meeting.tencent.com/dm/GGtvq8bEplq9',
+  '2026-06-30': 'https://meeting.tencent.com/dm/Zgdobnp1hzH3',
 };
 
 // ─── RECIPIENTS ───────────────────────────────────────────────────
@@ -25,8 +32,7 @@ const TO = [
 const CC = 'petrpesekpesek@gmail.com';
 
 // ─── FIND TODAY'S MEETING ─────────────────────────────────────────
-// Workflow runs at 02:50 UTC = 10:50 CST (UTC+8), ~8 hours before the 18:50 class.
-// Large buffer accounts for GitHub Actions scheduler delays (often 1-3 hours).
+// cron-job.org triggers this at 16:45 CST (UTC+8) = exactly 2 hours before the 18:45 class.
 const nowUTC = new Date();
 const cstOffset = 8 * 60 * 60 * 1000;
 const nowCST = new Date(nowUTC.getTime() + cstOffset);
@@ -46,14 +52,14 @@ const dateForEmail = nowCST.toLocaleDateString('en-US', {
 });
 
 // ─── EMAIL CONTENT ────────────────────────────────────────────────
-const subject = `Class Meeting in 8 Hours – ${dateForEmail}`;
+const subject = `Class Meeting in 2 Hours – ${dateForEmail}`;
 
 const body = `Dear Eva, Sue & Mitchel,
 
-Your class meeting is starting in approximately 8 hours.
+Your class meeting is starting in 2 hours.
 
 📅 Date: ${dateForEmail}
-⏰ Time: 6:50 PM – 7:50 PM (China Standard Time)
+⏰ Time: 6:45 PM – 7:45 PM (China Standard Time)
 🔗 Join here: ${meetingLink}
 
 Please make sure you are ready 5 minutes before the session begins.
@@ -65,10 +71,10 @@ Petr
 
 亲爱的 Eva、Sue 和 Mitchel，
 
-您的课程会议将在约8小时后开始。
+您的课程会议将在2小时后开始。
 
 📅 日期：${dateForEmail}
-⏰ 时间：晚上 6:50 – 7:50（北京时间）
+⏰ 时间：晚上 6:45 – 7:45（北京时间）
 🔗 点击加入：${meetingLink}
 
 请在上课前5分钟做好准备。
