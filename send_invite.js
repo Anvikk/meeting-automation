@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 
 // ─── MEETING LINKS ────────────────────────────────────────────────
-// Add new links here as you create them. Format: 'YYYY-MM-DD': 'https://...'
 const MEETINGS = {
   '2026-04-28': 'https://meeting.tencent.com/dm/hLYvWGeUESs4',
   '2026-04-30': 'https://meeting.tencent.com/dm/aDqr3THCy7iz',
@@ -19,15 +18,15 @@ const MEETINGS = {
 
 // ─── RECIPIENTS ───────────────────────────────────────────────────
 const TO = [
-  'gxt661215@icloud.com',      // Eva's mom
-  's.sheik0123@gmail.com',     // Sue
-  'montallamitchel1717@gmail.com', // Mitchel
+  'gxt661215@icloud.com',
+  's.sheik0123@gmail.com',
+  'montallamitchel1717@gmail.com',
 ];
-const CC = 'petrpesekpesek@gmail.com'; // Petr
+const CC = 'petrpesekpesek@gmail.com';
 
 // ─── FIND TODAY'S MEETING ─────────────────────────────────────────
-// GitHub Actions runs in UTC. Meeting is at 18:50 CST (UTC+8),
-// so we run at 09:50 UTC and look for today's date in CST.
+// Workflow runs at 02:50 UTC = 10:50 CST (UTC+8), ~8 hours before the 18:50 class.
+// Large buffer accounts for GitHub Actions scheduler delays (often 1-3 hours).
 const nowUTC = new Date();
 const cstOffset = 8 * 60 * 60 * 1000;
 const nowCST = new Date(nowUTC.getTime() + cstOffset);
@@ -43,15 +42,15 @@ if (!meetingLink) {
 // ─── FORMAT DATE FOR EMAIL ────────────────────────────────────────
 const dateForEmail = nowCST.toLocaleDateString('en-US', {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  timeZone: 'Asia/Shanghai'
+  timeZone: 'Asia/Shanghai',
 });
 
 // ─── EMAIL CONTENT ────────────────────────────────────────────────
-const subject = `Class Meeting Starting in 1 Hour – ${dateForEmail}`;
+const subject = `Class Meeting in 8 Hours – ${dateForEmail}`;
 
 const body = `Dear Eva, Sue & Mitchel,
 
-Your class meeting is starting in 1 hour.
+Your class meeting is starting in approximately 8 hours.
 
 📅 Date: ${dateForEmail}
 ⏰ Time: 6:50 PM – 7:50 PM (China Standard Time)
@@ -66,7 +65,7 @@ Petr
 
 亲爱的 Eva、Sue 和 Mitchel，
 
-您的课程会议将在1小时后开始。
+您的课程会议将在约8小时后开始。
 
 📅 日期：${dateForEmail}
 ⏰ 时间：晚上 6:50 – 7:50（北京时间）
