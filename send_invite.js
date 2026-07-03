@@ -21,6 +21,14 @@ const MEETINGS = {
   '2026-06-23': 'https://meeting.tencent.com/dm/UqkWCAvu86Rl',
   '2026-06-25': 'https://meeting.tencent.com/dm/GGtvq8bEplq9',
   '2026-06-30': 'https://meeting.tencent.com/dm/Zgdobnp1hzH3',
+  '2026-07-07': 'https://meeting.tencent.com/dm/BXdY9HN3ScVE',
+  '2026-07-09': 'https://meeting.tencent.com/dm/jsDrUnq3wfnF',
+  '2026-07-14': 'https://meeting.tencent.com/dm/6a9N5oNxOH8g',
+  '2026-07-16': 'https://meeting.tencent.com/dm/GrDkpCtvZyBR',
+  '2026-07-21': 'https://meeting.tencent.com/dm/oul8KV7uXInR',
+  '2026-07-23': 'https://meeting.tencent.com/dm/ph1owJdLYFlm',
+  '2026-07-28': 'https://meeting.tencent.com/dm/9NWdtPy55ODZ',
+  '2026-07-30': 'https://meeting.tencent.com/dm/QrHvfg95TBzf',
 };
 
 // ─── RECIPIENTS ───────────────────────────────────────────────────
