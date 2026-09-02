@@ -29,7 +29,21 @@ const MEETINGS = {
   '2026-07-23': 'https://meeting.tencent.com/dm/ph1owJdLYFlm',
   '2026-07-28': 'https://meeting.tencent.com/dm/9NWdtPy55ODZ',
   '2026-07-30': 'https://meeting.tencent.com/dm/QrHvfg95TBzf',
+
+  // ─── Sept/Oct 2026: schedule changed to Mondays, 6:30–7:30 PM CST ───
+  '2026-09-07': 'https://meeting.tencent.com/dm/NzXaCvcC3SSn',
+  '2026-09-14': 'https://meeting.tencent.com/dm/q7VRqr4t9DI3',
+  '2026-09-21': 'https://meeting.tencent.com/dm/Xc2rKeJoj6LQ',
+  '2026-09-28': 'https://meeting.tencent.com/dm/0cx1U43yOtTx',
+  '2026-10-05': 'https://meeting.tencent.com/dm/xaIKPnp6trxQ',
+  '2026-10-12': 'https://meeting.tencent.com/dm/yYg4e7rmhYQE',
+  '2026-10-19': 'https://meeting.tencent.com/dm/yBqOr8iuTO4k',
+  '2026-10-26': 'https://meeting.tencent.com/dm/8iIS9K2GMUtJ',
 };
+
+// NOTE: from 2026-09-07 onward, class time is 6:30–7:30 PM CST (was 6:45–7:45 PM).
+// cron-job.org trigger stays at 16:45 CST — that's now 1h45m before class instead
+// of a full 2h, which is fine.
 
 // ─── RECIPIENTS ───────────────────────────────────────────────────
 const TO = [
@@ -40,7 +54,9 @@ const TO = [
 const CC = 'petrpesekpesek@gmail.com';
 
 // ─── FIND TODAY'S MEETING ─────────────────────────────────────────
-// cron-job.org triggers this at 16:45 CST (UTC+8) = exactly 2 hours before the 18:45 class.
+// cron-job.org triggers this daily. Through 2026-07-30, class was 18:45 CST and
+// trigger was 16:45 (a full 2h before). From 2026-09-07, class moved to 18:30 CST
+// but the trigger stayed at 16:45 CST, so it now fires 1h45m before class.
 const nowUTC = new Date();
 const cstOffset = 8 * 60 * 60 * 1000;
 const nowCST = new Date(nowUTC.getTime() + cstOffset);
@@ -60,14 +76,14 @@ const dateForEmail = nowCST.toLocaleDateString('en-US', {
 });
 
 // ─── EMAIL CONTENT ────────────────────────────────────────────────
-const subject = `Class Meeting in 2 Hours – ${dateForEmail}`;
+const subject = `Class Meeting in About 2 Hours – ${dateForEmail}`;
 
 const body = `Dear Eva, Sue & Mitchel,
 
-Your class meeting is starting in 2 hours.
+Your class meeting is starting in about 2 hours.
 
 📅 Date: ${dateForEmail}
-⏰ Time: 6:45 PM – 7:45 PM (China Standard Time)
+⏰ Time: 6:30 PM – 7:30 PM (China Standard Time)
 🔗 Join here: ${meetingLink}
 
 Please make sure you are ready 5 minutes before the session begins.
@@ -79,10 +95,10 @@ Petr
 
 亲爱的 Eva、Sue 和 Mitchel，
 
-您的课程会议将在2小时后开始。
+您的课程会议将在大约2小时后开始。
 
 📅 日期：${dateForEmail}
-⏰ 时间：晚上 6:45 – 7:45（北京时间）
+⏰ 时间：晚上 6:30 – 7:30（北京时间）
 🔗 点击加入：${meetingLink}
 
 请在上课前5分钟做好准备。
