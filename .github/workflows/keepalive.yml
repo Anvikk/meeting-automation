@@ -1,0 +1,19 @@
+# .github/workflows/keepalive.yml
+name: Keepalive
+on:
+  schedule:
+    - cron: '0 0 1 * *'  # once a month
+  workflow_dispatch:
+
+jobs:
+  touch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          date > .keepalive
+          git config user.name "keepalive-bot"
+          git config user.email "actions@github.com"
+          git add .keepalive
+          git commit -m "keepalive" || echo "nothing to commit"
+          git push
