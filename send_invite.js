@@ -39,6 +39,16 @@ const MEETINGS = {
   '2026-10-12': 'https://meeting.tencent.com/dm/yYg4e7rmhYQE',
   '2026-10-19': 'https://meeting.tencent.com/dm/yBqOr8iuTO4k',
   '2026-10-26': 'https://meeting.tencent.com/dm/8iIS9K2GMUtJ',
+
+  // Nov/Dec 2026: recurring Monday series, 6:30-7:30 PM China time
+  '2026-11-02': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-11-09': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-11-16': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-11-23': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-11-30': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-12-07': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-12-14': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  '2026-12-21': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
 };
 
 // Class time is 6:30–7:30 PM China Standard Time. The Monday workflow runs at 16:45.
