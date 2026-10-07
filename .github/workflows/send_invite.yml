@@ -1,7 +1,15 @@
 name: Send Meeting Invite
 
 on:
-  workflow_dispatch: # triggered externally by cron-job.org
+  schedule:
+    - cron: '45 8 * * 1' # 16:45 every Monday in China Standard Time
+  workflow_dispatch:
+    inputs:
+      test_email:
+        description: Send a test email only to the CC address
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   send-invite:
@@ -13,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
 
       - name: Install dependencies
         run: npm install nodemailer
@@ -22,4 +30,5 @@ jobs:
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          TEST_EMAIL: ${{ inputs.test_email }}
         run: node send_invite.js
