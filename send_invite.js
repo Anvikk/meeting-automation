@@ -41,9 +41,7 @@ const MEETINGS = {
   '2026-10-26': 'https://meeting.tencent.com/dm/8iIS9K2GMUtJ',
 };
 
-// NOTE: from 2026-09-07 onward, class time is 6:30–7:30 PM CST (was 6:45–7:45 PM).
-// cron-job.org trigger stays at 16:45 CST — that's now 1h45m before class instead
-// of a full 2h, which is fine.
+// Class time is 6:30–7:30 PM China Standard Time. The Monday workflow runs at 16:45.
 
 // ─── RECIPIENTS ───────────────────────────────────────────────────
 const TO = [
@@ -53,32 +51,56 @@ const TO = [
 ];
 const CC = 'petrpesekpesek@gmail.com';
 
-// ─── FIND TODAY'S MEETING ─────────────────────────────────────────
-// cron-job.org triggers this daily. Through 2026-07-30, class was 18:45 CST and
-// trigger was 16:45 (a full 2h before). From 2026-09-07, class moved to 18:30 CST
-// but the trigger stayed at 16:45 CST, so it now fires 1h45m before class.
-const nowUTC = new Date();
-const cstOffset = 8 * 60 * 60 * 1000;
-const nowCST = new Date(nowUTC.getTime() + cstOffset);
-const todayStr = nowCST.toISOString().slice(0, 10); // 'YYYY-MM-DD'
-
-const meetingLink = MEETINGS[todayStr];
-
-if (!meetingLink) {
-  console.log(`No meeting scheduled for ${todayStr}. Nothing to send.`);
-  process.exit(0);
-}
-
-// ─── FORMAT DATE FOR EMAIL ────────────────────────────────────────
-const dateForEmail = nowCST.toLocaleDateString('en-US', {
-  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  timeZone: 'Asia/Shanghai',
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
 });
 
-// ─── EMAIL CONTENT ────────────────────────────────────────────────
-const subject = `Class Meeting in About 2 Hours – ${dateForEmail}`;
+const now = new Date();
+const chinaParts = Object.fromEntries(
+  new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Shanghai',
+    weekday: 'long',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(now).map(({ type, value }) => [type, value]),
+);
+const todayStr = `${chinaParts.year}-${chinaParts.month}-${chinaParts.day}`;
+const dateForEmail = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  timeZone: 'Asia/Shanghai',
+}).format(now);
+const from = `"Petr Pešek" <${process.env.GMAIL_USER}>`;
 
-const body = `Dear Eva, Sue & Mitchel,
+async function main() {
+  if (process.env.TEST_EMAIL === 'true') {
+    const info = await transporter.sendMail({
+      from,
+      to: CC,
+      subject: '[Test] Meeting automation email delivery',
+      text: 'This is a test of the meeting automation email delivery. No class invitation was sent.',
+    });
+    console.log(`Test email sent only to the CC address. Message ID: ${info.messageId}`);
+    return;
+  }
+
+  if (chinaParts.weekday !== 'Monday') {
+    console.log(`${todayStr} is ${chinaParts.weekday}; Monday-only schedule, nothing to send.`);
+    return;
+  }
+
+  const meetingLink = MEETINGS[todayStr];
+  if (!meetingLink) {
+    console.log(`No meeting scheduled for ${todayStr}. Nothing to send.`);
+    return;
+  }
+
+  const subject = `Class Meeting in About 2 Hours – ${dateForEmail}`;
+  const body = `Dear Eva, Sue & Mitchel,
 
 Your class meeting is starting in about 2 hours.
 
@@ -106,27 +128,18 @@ Petr
 期待与您相见！
 Petr`;
 
-// ─── SEND EMAIL ───────────────────────────────────────────────────
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+  const info = await transporter.sendMail({
+    from,
+    to: TO.join(', '),
+    cc: CC,
+    subject,
+    text: body,
+  });
+  console.log(`Invite sent successfully for ${todayStr}!`);
+  console.log('Message ID:', info.messageId);
+}
 
-transporter.sendMail({
-  from: `"Petr Pešek" <${process.env.GMAIL_USER}>`,
-  to: TO.join(', '),
-  cc: CC,
-  subject,
-  text: body,
-}, (err, info) => {
-  if (err) {
-    console.error('Failed to send email:', err);
-    process.exit(1);
-  } else {
-    console.log(`✅ Invite sent successfully for ${todayStr}!`);
-    console.log('Message ID:', info.messageId);
-  }
+main().catch((err) => {
+  console.error('Failed to send email:', err);
+  process.exitCode = 1;
 });
