@@ -40,15 +40,15 @@ const MEETINGS = {
   '2026-10-19': 'https://meeting.tencent.com/dm/yBqOr8iuTO4k',
   '2026-10-26': 'https://meeting.tencent.com/dm/8iIS9K2GMUtJ',
 
-  // Nov/Dec 2026: recurring Monday series, 6:30-7:30 PM China time
-  '2026-11-02': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-11-09': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-11-16': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-11-23': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-11-30': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-12-07': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-12-14': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
-  '2026-12-21': 'https://meeting.tencent.com/dm/RDGWjTYnVlBZ',
+  // Nov/Dec 2026: separate Monday meetings, 6:30-7:30 PM China time
+  '2026-11-02': 'https://meeting.tencent.com/dm/ZKKIGMmaG2jj',
+  '2026-11-09': 'https://meeting.tencent.com/dm/2XFEAHb8VeZM',
+  '2026-11-16': 'https://meeting.tencent.com/dm/lPq7YcmZYxpx',
+  '2026-11-23': 'https://meeting.tencent.com/dm/UajnMx2cqtkE',
+  '2026-11-30': 'https://meeting.tencent.com/dm/olpUen7cDE0H',
+  '2026-12-07': 'https://meeting.tencent.com/dm/uFo7V71itJUi',
+  '2026-12-14': 'https://meeting.tencent.com/dm/0eUScvKXLtns',
+  '2026-12-21': 'https://meeting.tencent.com/dm/8c2xnxywxWpY',
 };
 
 // Class time is 6:30–7:30 PM China Standard Time. The Monday workflow runs at 16:45.
