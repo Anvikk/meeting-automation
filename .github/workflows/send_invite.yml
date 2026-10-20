@@ -1,9 +1,7 @@
 name: Send Meeting Invite
 
 on:
-  schedule:
-    - cron: '45 8 * * 3' # 16:45 every Wednesday in China Standard Time
-  workflow_dispatch:
+  workflow_dispatch: # triggered externally by cron-job.org (the only trigger; no GitHub schedule, to avoid duplicate sends)
     inputs:
       test_email:
         description: Send a test email only to the CC address
