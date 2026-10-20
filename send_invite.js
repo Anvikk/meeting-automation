@@ -49,9 +49,23 @@ const MEETINGS = {
   '2026-12-07': 'https://meeting.tencent.com/dm/uFo7V71itJUi',
   '2026-12-14': 'https://meeting.tencent.com/dm/0eUScvKXLtns',
   '2026-12-21': 'https://meeting.tencent.com/dm/8c2xnxywxWpY',
+
+  // ─── Wednesday schedule (from 2026-10-21): 6:30–7:30 PM China time ───
+  // TODO: paste the Tencent Meeting link for each Wednesday below.
+  '2026-10-21': '',
+  '2026-10-28': '',
+  '2026-11-04': '',
+  '2026-11-11': '',
+  '2026-11-18': '',
+  '2026-11-25': '',
+  '2026-12-02': '',
+  '2026-12-09': '',
+  '2026-12-16': '',
+  '2026-12-23': '',
 };
 
-// Class time is 6:30–7:30 PM China Standard Time. The Monday workflow runs at 16:45.
+// Class time is 6:30–7:30 PM China Standard Time. The Wednesday workflow runs at 16:45.
+const CLASS_DAY = 'Wednesday';
 
 // ─── RECIPIENTS ───────────────────────────────────────────────────
 const TO = [
@@ -98,15 +112,15 @@ async function main() {
     return;
   }
 
-  if (chinaParts.weekday !== 'Monday') {
-    console.log(`${todayStr} is ${chinaParts.weekday}; Monday-only schedule, nothing to send.`);
+  if (chinaParts.weekday !== CLASS_DAY) {
+    console.log(`${todayStr} is ${chinaParts.weekday}; ${CLASS_DAY}-only schedule, nothing to send.`);
     return;
   }
 
   const meetingLink = MEETINGS[todayStr];
   if (!meetingLink) {
-    console.log(`No meeting scheduled for ${todayStr}. Nothing to send.`);
-    return;
+    // Fail loudly so a missing link doesn't silently skip a class day.
+    throw new Error(`No meeting link set for ${todayStr} (${CLASS_DAY}). Add it to MEETINGS.`);
   }
 
   const subject = `Class Meeting in About 2 Hours – ${dateForEmail}`;
