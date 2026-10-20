@@ -2,7 +2,7 @@ name: Send Meeting Invite
 
 on:
   schedule:
-    - cron: '45 8 * * 1' # 16:45 every Monday in China Standard Time
+    - cron: '45 8 * * 3' # 16:45 every Wednesday in China Standard Time
   workflow_dispatch:
     inputs:
       test_email:
